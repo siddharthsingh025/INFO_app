@@ -56,9 +56,9 @@ public class CpuInfo extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
+                this.finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);

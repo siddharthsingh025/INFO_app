@@ -13,7 +13,10 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -51,16 +54,25 @@ public class locationActivity extends AppCompatActivity implements LocationListe
 
         }
 
-       getLocation();
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                getLocation();
+            }
+        });
     }
+
+
+
 
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
+                this.finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -83,6 +95,9 @@ public class locationActivity extends AppCompatActivity implements LocationListe
         Toast.makeText(this,""+location.getLatitude()+""+location.getLongitude(),Toast.LENGTH_SHORT);
 
         try{
+
+            //Geocoding is a process in which street address is converted into a coordinate (latitude,longitude).
+            // Reverse geocoding is a process in which a coordinate (latitude,longitude) is converted into an address.
 
             Geocoder geocoder = new Geocoder(locationActivity.this, Locale.getDefault());
             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
